@@ -46,7 +46,7 @@ test('Folder Tree correctly renders empty folders', async () => {
 	expect(rootItem).toBeInTheDocument();
 
 	await fireEvent.click(rootItem);
-	// With this line uncommented - everything works
+	// Line below makes test pass
 	// await fireEvent.click(rootItem);
 
 	const firstLevelFolder = screen.getByText('Florida');
