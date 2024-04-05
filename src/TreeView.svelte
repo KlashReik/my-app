@@ -1,26 +1,25 @@
-<script context="module">
-	// retain module scoped expansion state for each tree node
-	const _expansionState = {
-		/* treeNodeId: expanded <boolean> */
-	}
-</script>
 <script>
-//	import { slide } from 'svelte/transition'
-	export let tree
-	const {label, children} = tree
+	import { getContext } from 'svelte';
 
-	let expanded = _expansionState[label] || false
+	export let tree;
+	const { label, children } = tree;
+
+	let expansionState = getContext('expansionState');
+	let expanded = expansionState[label] || false;
+
 	const toggleExpansion = () => {
-		expanded = _expansionState[label] = !expanded
-	}
-	$: arrowDown = expanded
+		expanded = expansionState[label] = !expanded;
+	};
+
+	$: arrowDown = expanded;
 </script>
 
-<ul><!-- transition:slide -->
+<ul>
+	<!-- transition:slide -->
 	<li>
 		{#if children}
 			<span on:click={toggleExpansion}>
-				<span class="arrow" class:arrowDown>&#x25b6</span>
+				<span class="arrow" class:arrowDown>&#x25b6;</span>
 				{label}
 			</span>
 			{#if expanded}
@@ -30,7 +29,7 @@
 			{/if}
 		{:else}
 			<span>
-				<span class="no-arrow"/>
+				<span class="no-arrow" />
 				{label}
 			</span>
 		{/if}
@@ -41,14 +40,18 @@
 	ul {
 		margin: 0;
 		list-style: none;
-		padding-left: 1.2rem; 
+		padding-left: 1.2rem;
 		user-select: none;
 	}
-	.no-arrow { padding-left: 1.0rem; }
+	.no-arrow {
+		padding-left: 1rem;
+	}
 	.arrow {
 		cursor: pointer;
 		display: inline-block;
 		/* transition: transform 200ms; */
 	}
-	.arrowDown { transform: rotate(90deg); }
+	.arrowDown {
+		transform: rotate(90deg);
+	}
 </style>

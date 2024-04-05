@@ -29,7 +29,7 @@ const TREE_MOCK = {
 };
 
 test('TreeView correctly opens nested folders', async () => {
-	render(TreeView, { tree: TREE_MOCK });
+	render(TreeView, { context: new Map([['expansionState', {}]]), props: { tree: TREE_MOCK } });
 	const rootItem = screen.getByText('USA');
 
 	expect(rootItem).toBeInTheDocument();
@@ -40,13 +40,12 @@ test('TreeView correctly opens nested folders', async () => {
 });
 
 test('ThreeView the same as previous', async () => {
-	render(TreeView, { tree: TREE_MOCK });
+	render(TreeView, { context: new Map([['expansionState', {}]]), props: { tree: TREE_MOCK } });
+
 	const rootItem = screen.getByText('USA');
 
 	expect(rootItem).toBeInTheDocument();
 
-	await fireEvent.click(rootItem);
-	// Line below makes test pass
 	await fireEvent.click(rootItem);
 
 	const firstLevelFolder = screen.getByText('Florida');
@@ -55,16 +54,13 @@ test('ThreeView the same as previous', async () => {
 
 test('ThreeView the same as previous but with userEvent', async () => {
 	const user = userEvent.setup();
-	render(TreeView, { tree: TREE_MOCK });
+	render(TreeView, { context: new Map([['expansionState', {}]]), props: { tree: TREE_MOCK } });
+
 	const rootItem = screen.getByText('USA');
 
 	expect(rootItem).toBeInTheDocument();
 
-	// works, BUT if you remove previous test or make it pass -> this one fails
 	await user.click(rootItem);
-	// Line below makes test pass
-	// await fireEvent.click(rootItem);
-
 	const firstLevelFolder = screen.getByText('Florida');
 	expect(firstLevelFolder).toBeInTheDocument();
 });
